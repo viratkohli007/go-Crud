@@ -5,6 +5,7 @@ import (
          "fmt"
          "database/sql"
        _ "github.com/lib/pq"
+       "os"
        )
 
 type homest struct{}
@@ -34,7 +35,7 @@ const (
 
 func main() {
 
-	const Port = os.Getenv("PORT")
+	 Port := ":8080"
     http.HandleFunc("/", Home)
     http.HandleFunc("/form", Form)
     http.HandleFunc("/display", Display)
