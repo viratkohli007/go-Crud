@@ -34,7 +34,7 @@ const (
 
 func main() {
 
-	const Port = ":8080"
+	const Port = os.Getenv("PORT")
     http.HandleFunc("/", Home)
     http.HandleFunc("/form", Form)
     http.HandleFunc("/display", Display)
@@ -104,6 +104,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 
     var Table formst2
     var Table2 []formst2
+
     for rows.Next() {
 
       err = rows.Scan(&Table.Id, &Table.Age, &Table.FirstName, &Table.LastName, &Table.Email)
