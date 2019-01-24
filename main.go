@@ -5,7 +5,7 @@ import (
          "fmt"
          "database/sql"
        _ "github.com/lib/pq"
-       //"os"
+       "os"
        )
 
 type homest struct{}
@@ -35,12 +35,12 @@ const (
 
 func main() {
 
-	 Port := ":8088"
+
     http.HandleFunc("/", Home)
     http.HandleFunc("/form", Form)
     http.HandleFunc("/display", Display)
     http.HandleFunc("/list", List)
-    err := http.ListenAndServe(Port, nil)
+    err := http.ListenAndServe(":"+ os.Getenv("Port"), nil)
     if err != nil{
     	fmt.Println(err)
     }
