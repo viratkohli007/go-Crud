@@ -5,7 +5,7 @@ import (
          "fmt"
          "database/sql"
        _ "github.com/lib/pq"
-       "os"
+         "os"
        )
 
 type homest struct{}
@@ -24,17 +24,15 @@ type formst2 struct{
     LastName  string
     Email string
 }
-
 const (
   host     = "localhost"
   port     = 5432
   user     = "postgres"
   password = "test123"
   dbname   = "postgres"
-         )
+      )
 
 func main() {
-
 
     http.HandleFunc("/", Home)
     http.HandleFunc("/form", Form)
