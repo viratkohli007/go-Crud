@@ -75,13 +75,13 @@ func Display(w http.ResponseWriter, r *http.Request) {
 
 func dbconn() *sql.DB{
 
-    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-    "password=%s dbname=%s sslmode=disable",
-    host, port, user, password, dbname)
+    // psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+    // "password=%s dbname=%s sslmode=disable",
+    // host, port, user, password, dbname)
 
     // connstr := "postgres://pqgotest:password@localhost/pqgotest?sslmode=verify-full"
 
-    db, err := sql.Open("postgres", psqlInfo)
+    db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
     if err != nil{
       fmt.Println(err)
     }
