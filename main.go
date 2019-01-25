@@ -32,16 +32,23 @@ const (
   dbname   = "postgres"
       )
 
-func main() {
+func dbconn() *sql.DB{
 
-    http.HandleFunc("/", Home)
-    http.HandleFunc("/form", Form)
-    http.HandleFunc("/display", Display)
-    http.HandleFunc("/list", List)
-    err := http.ListenAndServe(":"+ os.Getenv("PORT"), nil)
+    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+    "password=%s dbname=%s sslmode=disable",
+    host, port, user, password, dbname)
+
+    // connstr := "postgres://pqgotest:password@localhost/pqgotest?sslmode=verify-full"
+
+    db, err := sql.Open("postgres", psqlInfo)
     if err != nil{
-    	fmt.Println(err)
+      fmt.Println(err)
     }
+    //defer db.Close()
+    //fmt.Println(db)
+
+     fmt.Println("successfully connected")
+     return db
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +63,7 @@ func Form(w http.ResponseWriter, r *http.Request) {
 }
 
 func Display(w http.ResponseWriter, r *http.Request) {
-    db2 := dbconn()
+     db2 := dbconn()
      formobj := new(formst)
      formobj.FirstName = r.FormValue("first_name")
      formobj.LastName = r.FormValue("last_name")
@@ -73,24 +80,7 @@ func Display(w http.ResponseWriter, r *http.Request) {
   t.Execute(w,formobj)
 }
 
-func dbconn() *sql.DB{
 
-    // psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-    // "password=%s dbname=%s sslmode=disable",
-    // host, port, user, password, dbname)
-
-    // connstr := "postgres://pqgotest:password@localhost/pqgotest?sslmode=verify-full"
-
-    db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-    if err != nil{
-      fmt.Println(err)
-    }
-    //defer db.Close()
-    //fmt.Println(db)
-
-     fmt.Println("successfully connected")
-     return db
-}
 
 func List(w http.ResponseWriter, r *http.Request) {
 
@@ -117,4 +107,17 @@ func List(w http.ResponseWriter, r *http.Request) {
 
      t, _ := template.ParseFiles("list.html")
      t.Execute(w, Table2)
+}
+
+
+func main() {
+
+    http.HandleFunc("/", Home)
+    http.HandleFunc("/form", Form)
+    http.HandleFunc("/display", Display)
+    http.HandleFunc("/list", List)
+    err := http.ListenAndServe(":"+ os.Getenv("PORT"), nil)
+    if err != nil{
+      fmt.Println(err)
+    }
 }
