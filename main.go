@@ -38,7 +38,7 @@ func main() {
     http.HandleFunc("/form", Form)
     http.HandleFunc("/display", Display)
     http.HandleFunc("/list", List)
-    err := http.ListenAndServe(":"+ os.Getenv("Port"), nil)
+    err := http.ListenAndServe(":"+ os.Getenv("PORT"), nil)
     if err != nil{
     	fmt.Println(err)
     }
